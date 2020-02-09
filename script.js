@@ -40,8 +40,8 @@ class Die {
             this.roll();
         });
         this.div.addEventListener('dblclick', () => {
+            diceArr.pop(this);
             container.removeChild(this.div);
-            diceArr.pop(this.div);
         });
     }
 

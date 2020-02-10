@@ -36,7 +36,10 @@ class Die {
         diceArr.push(this);
         this.div.addEventListener('click', () => this.roll());
         this.div.addEventListener('dblclick', () => {
-            diceArr.pop(this);
+            const index = diceArr.indexOf(this);
+            if (index > -1) {
+                diceArr.splice(index, 1);
+            }
             container.removeChild(this.div);
         });
     }

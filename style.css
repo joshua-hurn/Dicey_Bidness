@@ -6,7 +6,7 @@
   border: 3px solid black;
 }
 
-#die-container {
+#dice-container {
   display: flex;
   justify-content: center;
   align-items: center;

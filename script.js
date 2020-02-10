@@ -1,4 +1,4 @@
-const container = document.getElementById('die-container'),
+const container = document.getElementById('dice-container'),
     generateButton = document.getElementById('generate-die'),
     rollButton = document.getElementById('roll-die'),
     sumButton = document.getElementById('sum-die');
@@ -6,24 +6,22 @@ let numOfDice = 0,
     diceArr = [];
 
 // Create a new dice object.
-generateButton.addEventListener('click', () => {
-    new Die();
-});
+generateButton.addEventListener('click', () => new Die());
 
 // Roll the dice.
-rollButton.addEventListener('click', () => {
-    diceArr.forEach(die => {
-        die.roll();
-    });
-});
+rollButton.addEventListener('click', () => diceArr.forEach(die => die.roll()));
 
 // Sum the dice.
 sumButton.addEventListener('click', () => {
-    let sum = 0;
-    diceArr.forEach(die => {
-        sum = sum + die.value
-    });
-    alert(sum);
+    if (diceArr.length === 0) {
+        alert('no dice!')
+    } else {
+        let sum = 0;
+        diceArr.forEach(die => {
+            sum = sum + die.value
+        });
+        alert(sum);
+    }
 });
 
 class Die {
@@ -35,10 +33,8 @@ class Die {
         this.roll();
         this.div.textContent = this.value;
         container.appendChild(this.div);
-        diceArr.push(this); // do not push this.div. try changing to this to this.div and see what happens!
-        this.div.addEventListener('click', () => {
-            this.roll();
-        });
+        diceArr.push(this);
+        this.div.addEventListener('click', () => this.roll());
         this.div.addEventListener('dblclick', () => {
             diceArr.pop(this);
             container.removeChild(this.div);

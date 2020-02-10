@@ -6,7 +6,10 @@ let numOfDice = 0,
     diceArr = [];
 
 // Create a new dice object.
-generateButton.addEventListener('click', () => new Die());
+generateButton.addEventListener('click', () => {
+    new Die();
+    console.log(diceArr);
+});
 
 // Roll the dice.
 rollButton.addEventListener('click', () => diceArr.forEach(die => die.roll()));
@@ -27,13 +30,17 @@ sumButton.addEventListener('click', () => {
 class Die {
     constructor(value) {
         this.value = value;
+        this.render();
+        diceArr.push(this);
+    }
+
+    render() {
         this.div = document.createElement('div');
         this.div.className = 'die';
         this.div.id = numOfDice++;
         this.roll();
         this.div.textContent = this.value;
         container.appendChild(this.div);
-        diceArr.push(this);
         this.div.addEventListener('click', () => this.roll());
         this.div.addEventListener('dblclick', () => {
             const index = diceArr.indexOf(this);

@@ -1,59 +1,38 @@
-const container = document.getElementById('dice-container'),
-    generateButton = document.getElementById('generate-die'),
-    rollButton = document.getElementById('roll-die'),
-    sumButton = document.getElementById('sum-die');
-let numOfDice = 0,
-    diceArr = [];
+const diceContainer = document.getElementById("dice-container"),
+    generateDie = document.getElementById("generate-die"),
+    sumDice = document.getElementById("sum-dice"),
+    rollDice = document.getElementById("roll-dice");
+let diceArr = [];
 
-// Create a new dice object.
-generateButton.addEventListener('click', () => {
-    new Die();
-    console.log(diceArr);
+generateDie.addEventListener("click", () => new Die(null));
+
+sumDice.addEventListener("click", () => {
+    let sum = 0;
+    diceArr.forEach(die => sum += die.value);
+    alert(sum);
 });
 
-// Roll the dice.
-rollButton.addEventListener('click', () => diceArr.forEach(die => die.roll()));
-
-// Sum the dice.
-sumButton.addEventListener('click', () => {
-    if (diceArr.length === 0) {
-        alert('no dice!')
-    } else {
-        let sum = 0;
-        diceArr.forEach(die => {
-            sum = sum + die.value
-        });
-        alert(sum);
-    }
-});
+rollDice.addEventListener("click", () => diceArr.forEach(die => die.roll()));
 
 class Die {
     constructor(value) {
         this.value = value;
-        this.render();
+        this.div = document.createElement("div");
+        this.div.className = "dice";
+        this.div.addEventListener("click", () => this.roll());
+        this.div.addEventListener("dblclick", () => {
+            let index = diceArr.indexOf(this);
+            diceArr.splice(index, 1);
+            diceContainer.removeChild(this.div);
+        });
+        this.roll();
+        diceContainer.appendChild(this.div);
         diceArr.push(this);
     }
 
-    render() {
-        this.div = document.createElement('div');
-        this.div.className = 'die';
-        this.div.id = numOfDice++;
-        this.roll();
-        this.div.textContent = this.value;
-        container.appendChild(this.div);
-        this.div.addEventListener('click', () => this.roll());
-        this.div.addEventListener('dblclick', () => {
-            const index = diceArr.indexOf(this);
-            if (index > -1) {
-                diceArr.splice(index, 1);
-            }
-            container.removeChild(this.div);
-        });
-    }
-
     roll() {
-        let randomVal = Math.floor((Math.random() * 6) + 1);
-        this.value = randomVal;
-        this.div.textContent = this.value;
+        let randomNum = Math.floor((Math.random() * 6) + 1);
+        this.value = randomNum;
+        this.div.innerHTML = this.value;
     }
 }
